@@ -22,6 +22,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.set('view engine', 'ejs');  // use EJS for templating
 app.use(express.static('public'));  // serve static files from /public
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));  // parse form data
 
 // session middleware (must come before passport)
 app.use(
@@ -76,6 +78,27 @@ app.get('/sets/new', async (req, res) => {
 
    const folders = await Folder.find( { user: req.user._id }).sort({ name: 1 });
    res.render('new-set', { user: req.user, folders });
+});
+
+app.post('/sets/create', async (req, res) => {
+   if (!req.isAuthenticated()) {
+       return res.redirect('/');
+   }
+
+   try {
+       const { title, folder } = req.body;
+
+       await FlashcardSet.create({
+          title,
+          user: req.user._id,
+          folder: folder || null  // set to null if no folder selected
+       });
+
+       res.redirect('/dashboard');
+   } catch (err) {
+       console.error("error creating flashcard set:", err);
+       res.redirect('/sets/new');
+   }
 });
 
 // starts server on port 3000
