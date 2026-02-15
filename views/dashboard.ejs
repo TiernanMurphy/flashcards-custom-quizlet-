@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>Just Flashcards</h1>
+        <h1>📚 My Flashcards</h1>
         <nav>
             <span>Welcome, <%= user.name %>!</span>
             <a href="/auth/logout" class="btn">Logout</a>
@@ -17,7 +17,31 @@
     </header>
 
     <main>
-        <p>You're logged in! This is where your flashcard sets will go.</p>
+        <div class="actions">
+            <a href="/sets/new" class="btn btn-primary">+ New Flashcard Set</a>
+        </div>
+
+        <div class="flashcard-sets">
+            <h2>Your Flashcard Sets</h2>
+
+            <% if (flashcardSets.length === 0) { %>
+                <p class="empty-state">No flashcard sets yet. Create your first one!</p>
+            <% } else { %>
+                <ul class="sets-list">
+                    <% flashcardSets.forEach(set => { %>
+                        <li class="set-item">
+                            <h3><%= set.title %></h3>
+                            <p class="set-meta">
+                                Created <%= set.createdAt.toLocaleDateString() %>
+                                <% if (set.folder) { %>
+                                    • In folder: <%= set.folder.name %>
+                                <% } %>
+                            </p>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
     </main>
 </div>
 </body>

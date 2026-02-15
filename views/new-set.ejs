@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Flashcard Set</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Create New Flashcard Set</h1>
+        <a href="/dashboard" class="btn">← Back to Dashboard</a>
+    </header>
+
+    <main>
+        <form action="/sets/create" method="POST">
+            <div class="form-group">
+                <label for="title">Set Title:</label>
+                <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="e.g., Networks Exam 1"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="folder">Folder (optional):</label>
+                <select id="folder" name="folder">
+                    <option value="">No folder</option>
+                    <% folders.forEach(folder => { %>
+                        <option value="<%= folder._id %>"><%= folder.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Set</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

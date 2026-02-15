@@ -10,6 +10,8 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from './config/passport.js';
 import authRoutes from './routes/auth.js';
+import FlashcardSet from './models/FlashcardSet.js';
+import Folder from './models/Folder.js';
 
 const app = express();  // app is an instance of express
 
@@ -41,11 +43,39 @@ app.get('/', (req, res) => {
 });
 
 // route to dashboard after login
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.redirect('/');
     }
-    res.render('dashboard', { user: req.user });
+
+    try {
+        // get all flashcard sets for current user
+        const flashcardSets = await FlashcardSet.find({ user: req.user._id })
+            .populate('folder')  // if flashcard set in folder, get folder details
+            .sort({ createdAt: -1 });
+
+        // get all folders for current user
+        const folders = await Folder.find({ user: req.user._id })
+            .sort({ name: 1 });  // alphabetical order
+
+        res.render('dashboard', {
+            user: req.user,
+            flashcardSets,
+            folders
+        });
+    } catch (err) {
+        console.log(err);
+        res.redirect('/');
+    }
+});
+
+app.get('/sets/new', async (req, res) => {
+   if (!req.isAuthenticated()) {
+       return res.redirect('/');
+   }
+
+   const folders = await Folder.find( { user: req.user._id }).sort({ name: 1 });
+   res.render('new-set', { user: req.user, folders });
 });
 
 // starts server on port 3000
