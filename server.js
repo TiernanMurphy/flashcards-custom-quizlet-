@@ -1,11 +1,15 @@
 // node lets you run JS outside a browser, Express is a web framework built on top of Node
 // Express makes building web apps and APIs much easier (mainly HTTP, routing, and middleware stuff)
 
-import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config(); // load environment variables
+
+import express from 'express';
+import mongoose from 'mongoose';
+import session from 'express-session';
+import passport from './config/passport.js';
+import authRoutes from './routes/auth.js';
 
 const app = express();  // app is an instance of express
 
@@ -17,14 +21,31 @@ mongoose.connect(process.env.MONGODB_URI)
 app.set('view engine', 'ejs');  // use EJS for templating
 app.use(express.static('public'));  // serve static files from /public
 
+// session middleware (must come before passport)
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+);
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/auth', authRoutes);
+
 // route for homepage HTTP GET requests
 app.get('/', (req, res) => {
     res.render('index');  // respond to homepage GET request with index.ejs response
 });
 
-// test route
-app.get('/auth/google', (req, res) => {
-   res.render('test');
+// route to dashboard after login
+app.get('/dashboard', (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+    res.render('dashboard', { user: req.user });
 });
 
 // starts server on port 3000

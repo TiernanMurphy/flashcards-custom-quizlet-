@@ -1,25 +1,23 @@
-<!-- EJS is like HTML but you can write JS directly in it -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Flashcards</title>
+    <title>Dashboard - Flashcard App</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div class="container">
     <header>
         <h1>Just Flashcards</h1>
-        <p>No ads or AI, so you can focus on learning</p>
+        <nav>
+            <span>Welcome, <%= user.name %>!</span>
+            <a href="/auth/logout" class="btn">Logout</a>
+        </nav>
     </header>
+
     <main>
-        <div class="auth-buttons">
-            <a href="/auth/google" class="btn btn-google">
-                Sign in with Google
-            </a>
-        </div>
+        <p>You're logged in! This is where your flashcard sets will go.</p>
     </main>
 </div>
 </body>
