@@ -30,13 +30,15 @@
                 <ul class="sets-list">
                     <% flashcardSets.forEach(set => { %>
                         <li class="set-item">
-                            <h3><%= set.title %></h3>
-                            <p class="set-meta">
-                                Created <%= set.createdAt.toLocaleDateString() %>
-                                <% if (set.folder) { %>
-                                    • In folder: <%= set.folder.name %>
-                                <% } %>
-                            </p>
+                            <a href="/sets/<%= set._id %>">
+                                <h3><%= set.title %></h3>
+                                <p class="set-meta">
+                                    Created <%= set.createdAt.toLocaleDateString() %>
+                                    <% if (set.folder) { %>
+                                        • In folder: <%= set.folder.name %>
+                                    <% } %>
+                                </p>
+                            </a>
                         </li>
                     <% }) %>
                 </ul>

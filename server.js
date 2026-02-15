@@ -12,6 +12,7 @@ import passport from './config/passport.js';
 import authRoutes from './routes/auth.js';
 import FlashcardSet from './models/FlashcardSet.js';
 import Folder from './models/Folder.js';
+import Flashcard from './models/Flashcard.js';
 
 const app = express();  // app is an instance of express
 
@@ -99,6 +100,54 @@ app.post('/sets/create', async (req, res) => {
        console.error("error creating flashcard set:", err);
        res.redirect('/sets/new');
    }
+});
+
+app.get('/sets/:id', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        const flashcardSet = await FlashcardSet.findById(req.params.id);
+
+        // check set belongs to logged-in user
+        if (!flashcardSet || flashcardSet.user.toString() !== req.user._id.toString()) {
+            return res.redirect('/dashboard');
+        }
+
+        const flashcards = await Flashcard.find({ flashcardSet: req.params.id })
+            .sort({ createdAt: 1 });
+
+        res.render('edit-set', {
+            user: req.user,
+            flashcardSet,
+            flashcards
+        });
+    } catch (err) {
+        console.error('Error loading set:', err);
+        res.redirect('/dashboard');
+    }
+});
+
+app.post('/sets/:id/cards/add', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        const { question, answer } = req.body;
+
+        await Flashcard.create({
+            question,
+            answer,
+            flashcardSet: req.params.id
+        });
+
+        res.redirect(`/sets/${req.params.id}`);
+    } catch (err) {
+        console.error('Error adding flashcard:', err);
+        res.redirect(`/sets/${req.params.id}`);
+    }
 });
 
 // starts server on port 3000

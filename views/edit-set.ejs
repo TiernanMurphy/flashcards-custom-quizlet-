@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= flashcardSet.title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><%= flashcardSet.title %></h1>
+        <a href="/dashboard" class="btn">← Back to Dashboard</a>
+    </header>
+
+    <main>
+        <h2>Flashcards (<%= flashcards.length %>)</h2>
+
+        <!-- List existing flashcards -->
+        <% if (flashcards.length === 0) { %>
+            <p class="empty-state">No flashcards yet. Add your first one below!</p>
+        <% } else { %>
+            <ul class="flashcard-list">
+                <% flashcards.forEach(card => { %>
+                    <li class="flashcard-item">
+                        <strong>Q:</strong> <%= card.question %><br>
+                        <strong>A:</strong> <%= card.answer %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+
+        <!-- Form to add new flashcard -->
+        <div class="add-flashcard">
+            <h3>Add New Flashcard</h3>
+            <form action="/sets/<%= flashcardSet._id %>/cards/add" method="POST">
+                <div class="form-group">
+                    <label for="question">Question:</label>
+                    <input type="text" id="question" name="question" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="answer">Answer:</label>
+                    <input type="text" id="answer" name="answer" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Flashcard</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
