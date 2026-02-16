@@ -13,6 +13,23 @@
         <a href="/dashboard" class="btn">← Back to Dashboard</a>
     </header>
 
+    <div class="set-details">
+        <form action="/sets/<%= flashcardSet._id %>/update-folder" method="POST">
+            <label for="folder">Move to folder:</label>
+            <select id="folder" name="folder" onchange="this.form.submit()">
+                <option value="" <%= !flashcardSet.folder ? 'selected' : '' %>>No folder</option>
+                <% folders.forEach(folder => { %>
+                    <option
+                            value="<%= folder._id %>"
+                            <%= flashcardSet.folder && flashcardSet.folder._id.toString() === folder._id.toString() ? 'selected' : '' %>
+                    >
+                        <%= folder.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </form>
+    </div>
+
     <main>
         <h2>Flashcards (<%= flashcards.length %>)</h2>
 

@@ -118,10 +118,14 @@ app.get('/sets/:id', async (req, res) => {
         const flashcards = await Flashcard.find({ flashcardSet: req.params.id })
             .sort({ createdAt: 1 });
 
+        const folders = await Folder.find({ user: req.user._id })
+            .sort({ name: 1 });
+
         res.render('edit-set', {
             user: req.user,
             flashcardSet,
-            flashcards
+            flashcards,
+            folders
         });
     } catch (err) {
         console.error('Error loading set:', err);
@@ -146,6 +150,55 @@ app.post('/sets/:id/cards/add', async (req, res) => {
         res.redirect(`/sets/${req.params.id}`);
     } catch (err) {
         console.error('Error adding flashcard:', err);
+        res.redirect(`/sets/${req.params.id}`);
+    }
+});
+
+// show new folder form
+app.get('/folders/new', (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+    res.render('new-folder', { user: req.user });
+});
+
+// create folder
+app.post('/folders/create', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        const { name } = req.body;
+
+        await Folder.create({
+            name,
+            user: req.user._id
+        });
+
+        res.redirect('/dashboard');
+    } catch (err) {
+        console.error('Error creating folder:', err);
+        res.redirect('/folders/new');
+    }
+});
+
+// edit what folder a flashcard set's in
+app.post('/sets/:id/update-folder', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        const { folder } = req.body;
+
+        await FlashcardSet.findByIdAndUpdate(req.params.id, {
+            folder: folder || null
+        });
+
+        res.redirect(`/sets/${req.params.id}`);
+    } catch (err) {
+        console.error('Error updating folder:', err);
         res.redirect(`/sets/${req.params.id}`);
     }
 });
