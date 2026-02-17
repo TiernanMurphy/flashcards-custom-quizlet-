@@ -9,8 +9,12 @@
 <body>
 <div class="container">
     <header>
-        <h1><%= flashcardSet.title %></h1>
-        <a href="/dashboard" class="btn">← Back to Dashboard</a>
+        <div>
+            <h1><%= flashcardSet.title %></h1>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="/dashboard" class="btn">← Back to Dashboard</a>
+        </div>
     </header>
 
     <div class="set-details">

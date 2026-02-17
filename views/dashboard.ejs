@@ -9,10 +9,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>📚 My Flashcards</h1>
         <nav>
-            <span>Welcome, <%= user.name %>!</span>
-            <a href="/auth/logout" class="btn">Logout</a>
         </nav>
     </header>
 
@@ -31,15 +28,20 @@
                 <ul class="sets-list">
                     <% flashcardSets.forEach(set => { %>
                         <li class="set-item">
-                            <a href="/sets/<%= set._id %>">
-                                <h3><%= set.title %></h3>
-                                <p class="set-meta">
-                                    Created <%= set.createdAt.toLocaleDateString() %>
-                                    <% if (set.folder) { %>
-                                        • In folder: <%= set.folder.name %>
-                                    <% } %>
-                                </p>
-                            </a>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+                                <a href="/sets/<%= set._id %>" style="flex: 1; text-decoration: none; color: inherit;">
+                                    <h3><%= set.title %></h3>
+                                    <p class="set-meta">
+                                        Created <%= set.createdAt.toLocaleDateString() %>
+                                        <% if (set.folder) { %>
+                                            • In folder: <%= set.folder.name %>
+                                        <% } %>
+                                    </p>
+                                </a>
+                                <form action="/sets/<%= set._id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this flashcard set? This cannot be undone.');" style="margin: 0;">
+                                    <button type="submit" class="delete-btn">🗑️</button>
+                                </form>
+                            </div>
                         </li>
                     <% }) %>
                 </ul>

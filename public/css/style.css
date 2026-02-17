@@ -95,6 +95,17 @@ nav span {
     background-color: #bdc3c7;
 }
 
+.delete-btn {
+    background: none;
+    border: none;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
 /* Actions section */
 .actions {
     display: flex;
