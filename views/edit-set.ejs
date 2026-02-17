@@ -11,6 +11,7 @@
     <header>
         <div>
             <h1><%= flashcardSet.title %></h1>
+            <a href="/sets/<%= flashcardSet._id %>/study" class="btn btn-primary">📚 Study This Set</a>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="/dashboard" class="btn">← Back to Dashboard</a>

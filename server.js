@@ -233,6 +233,33 @@ app.post('/sets/:id/update-folder', async (req, res) => {
     }
 });
 
+// study flashcards one by one
+app.get('/sets/:id/study', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        const flashcardSet = await FlashcardSet.findById(req.params.id);
+
+        if (!flashcardSet || flashcardSet.user.toString() !== req.user._id.toString()) {
+            return res.redirect('/dashboard');
+        }
+
+        const flashcards = await Flashcard.find({ flashcardSet: req.params.id })
+            .sort({ createdAt: 1 });
+
+        res.render('study-set', {
+            user: req.user,
+            flashcardSet,
+            flashcards
+        });
+    } catch (err) {
+        console.error('Error loading study page:', err);
+        res.redirect('/dashboard');
+    }
+});
+
 // starts server on port 3000
 app.listen(3000, () => {
     console.log('Server started on port 3000!');
