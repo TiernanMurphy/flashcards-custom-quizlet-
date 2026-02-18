@@ -11,9 +11,6 @@
     <header class="study-header">
         <a href="/sets/<%= flashcardSet._id %>" class="btn">← Back to Set</a>
         <h2><%= flashcardSet.title %></h2>
-        <div class="progress">
-            Card <span id="current-card">1</span> of <%= flashcards.length %>
-        </div>
     </header>
 
     <% if (flashcards.length === 0) { %>
@@ -23,6 +20,9 @@
         </div>
     <% } else { %>
         <main class="study-main">
+            <div class="progress">
+                <span id="current-card">1</span> of <%= flashcards.length %>
+            </div>
             <div class="flashcard" id="flashcard" onclick="flipCard()">
                 <div class="flashcard-inner" id="flashcard-inner">
                     <div class="flashcard-front">

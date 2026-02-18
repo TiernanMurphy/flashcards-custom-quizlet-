@@ -57,6 +57,11 @@ app.get('/dashboard', async (req, res) => {
             .populate('folder')  // if flashcard set in folder, get folder details
             .sort({ createdAt: -1 });
 
+        // count flashcards for each set
+        for (let set of flashcardSets) {
+            set.cardCount = await Flashcard.countDocuments({ flashcardSet: set._id });
+        }
+
         // get all folders for current user
         const folders = await Folder.find({ user: req.user._id })
             .sort({ name: 1 });  // alphabetical order
