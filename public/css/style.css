@@ -109,8 +109,8 @@ nav span {
 /* Actions section */
 .actions {
     display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 5px;
+    margin-bottom: 5px;
 }
 
 /* Landing page */
@@ -214,8 +214,8 @@ main {
     background: #f9f9f9;
     padding: 15px;
     margin-bottom: 10px;
-    border-radius: 5px;
-    border-left: 4px solid #3498db;
+    border-radius: 7px;
+    border: 2px solid #3498db;
 }
 
 .flashcard-item strong {
@@ -288,7 +288,6 @@ main {
 }
 
 .flashcard {
-    perspective: 1000px;
     margin-bottom: 30px;
     cursor: pointer;
 }
@@ -297,12 +296,6 @@ main {
     position: relative;
     width: 100%;
     height: 400px;
-    transition: transform 0.2s;
-    transform-style: preserve-3d;
-}
-
-.flashcard-inner.flipped {
-    transform: rotateX(180deg);
 }
 
 .flashcard-front,
@@ -310,7 +303,6 @@ main {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
     background: white;
     border-radius: 15px;
     padding: 40px;
@@ -319,11 +311,24 @@ main {
     justify-content: center;
     align-items: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
+}
+
+.flashcard-front {
+    opacity: 1;
 }
 
 .flashcard-back {
-    transform: rotateX(180deg);
+    opacity: 0;
     background: #f8f9fa;
+}
+
+.flashcard-inner.flipped .flashcard-front {
+    opacity: 0;
+}
+
+.flashcard-inner.flipped .flashcard-back {
+    opacity: 1;
 }
 
 .card-label {
@@ -377,7 +382,7 @@ main {
 }
 
 .emoji-btn:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .delete-btn:hover {

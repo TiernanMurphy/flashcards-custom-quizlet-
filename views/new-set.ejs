@@ -21,21 +21,11 @@
                         type="text"
                         id="title"
                         name="title"
-                        placeholder="e.g., Networks Exam 1"
+                        placeholder="what're you studying for?"
                         required
                 >
             </div>
-
-            <div class="form-group">
-                <label for="folder">Folder (optional):</label>
-                <select id="folder" name="folder">
-                    <option value="">No folder</option>
-                    <% folders.forEach(folder => { %>
-                        <option value="<%= folder._id %>"><%= folder.name %></option>
-                    <% }) %>
-                </select>
-            </div>
-
+<!--            <a href="/sets/<%= set._id%> /" class="emoji-btn">Add Cards</a>-->
             <button type="submit" class="btn btn-primary">Create Set</button>
         </form>
     </main>

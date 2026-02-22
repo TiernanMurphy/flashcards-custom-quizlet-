@@ -15,13 +15,11 @@
 
     <main>
         <div class="actions">
-            <a href="/sets/new" class="btn btn-primary">+ New Flashcard Set</a>
-            <a href="/folders/new" class="btn btn-primary">+ New Folder</a>
+            <a href="/sets/new" class="emoji-btn" style="color: green;">🧩</a>
+<!--            <a href="/folders/new" class="btn btn-primary">+ New Folder</a>-->
         </div>
 
         <div class="flashcard-sets">
-            <h2>Your Flashcard Sets</h2>
-
             <% if (flashcardSets.length === 0) { %>
                 <p class="empty-state">No flashcard sets yet. Create your first one!</p>
             <% } else { %>
@@ -29,14 +27,14 @@
                     <% flashcardSets.forEach(set => { %>
                         <li class="set-item">
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; gap: 15px;">
-                                <a href="/sets/<%= set._id %>" style="flex: 1; text-decoration: none; color: inherit;">
+                                <!-- change this link to study page --> <a href="/sets/<%= set._id %>/study" style="flex: 1; text-decoration: none; color: inherit;">
                                     <h3><%= set.title %></h3>
                                     <p class="set-meta">
                                         <%= set.cardCount %> cards
                                     </p>
                                 </a>
 
-                                <a href="/sets/<%= set._id %>/study" class="emoji-btn">📚</a>
+                                <a href="/sets/<%= set._id %>/" class="emoji-btn">✏️</a>
 
                                 <form action="/sets/<%= set._id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this flashcard set? This cannot be undone.');" style="margin: 0;">
                                     <button type="submit" class="emoji-btn">🗑️</button>

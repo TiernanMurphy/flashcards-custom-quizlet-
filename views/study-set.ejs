@@ -9,7 +9,7 @@
 <body>
 <div class="study-container">
     <header class="study-header">
-        <a href="/sets/<%= flashcardSet._id %>" class="btn">← Back to Set</a>
+        <a href="/dashboard/" class="btn">Back</a>
         <h2><%= flashcardSet.title %></h2>
     </header>
 
@@ -26,12 +26,12 @@
             <div class="flashcard" id="flashcard" onclick="flipCard()">
                 <div class="flashcard-inner" id="flashcard-inner">
                     <div class="flashcard-front">
-                        <div class="card-label">Question</div>
+                        <div class="card-label">Q</div>
                         <div class="card-content" id="question-content"></div>
                         <div class="flip-hint">Click to flip</div>
                     </div>
                     <div class="flashcard-back">
-                        <div class="card-label">Answer</div>
+                        <div class="card-label">A</div>
                         <div class="card-content" id="answer-content"></div>
                         <div class="flip-hint">Click to flip</div>
                     </div>
@@ -55,13 +55,13 @@
                 document.getElementById('answer-content').textContent = card.answer;
                 document.getElementById('current-card').textContent = index + 1;
 
-                // Reset flip
+                // reset flip
                 if (isFlipped) {
                     document.getElementById('flashcard-inner').classList.remove('flipped');
                     isFlipped = false;
                 }
 
-                // Update buttons
+                // update buttons
                 document.getElementById('prev-btn').disabled = index === 0;
                 document.getElementById('next-btn').disabled = index === flashcards.length - 1;
             }
@@ -85,7 +85,7 @@
                 }
             }
 
-            // Keyboard navigation
+            // keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight') nextCard();
                 if (e.key === 'ArrowLeft') previousCard();
@@ -95,7 +95,7 @@
                 }
             });
 
-            // Initialize
+            // initialize
             showCard(0);
         </script>
     <% } %>

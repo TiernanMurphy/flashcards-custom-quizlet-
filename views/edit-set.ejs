@@ -38,7 +38,7 @@
     <main>
         <h2>Flashcards (<%= flashcards.length %>)</h2>
 
-        <!-- List existing flashcards -->
+        <!-- list existing flashcards -->
         <% if (flashcards.length === 0) { %>
             <p class="empty-state">No flashcards yet. Add your first one below!</p>
         <% } else { %>
@@ -47,12 +47,15 @@
                     <li class="flashcard-item">
                         <strong>Q:</strong> <%= card.question %><br>
                         <strong>A:</strong> <%= card.answer %>
+                        <form action="/sets/<%= flashcardSet._id %>/cards/<%= card._id %>/delete" method="POST" onsubmit="return confirm('Delete this flashcard?');">
+                            <button class="submit" class="emoji-btn">🗑️</button>
+                        </form>
                     </li>
                 <% }) %>
             </ul>
         <% } %>
 
-        <!-- Form to add new flashcard -->
+        <!-- form to add new flashcard -->
         <div class="add-flashcard">
             <h3>Add New Flashcard</h3>
             <form action="/sets/<%= flashcardSet._id %>/cards/add" method="POST">

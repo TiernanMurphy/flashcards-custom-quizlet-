@@ -77,6 +77,7 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
+// create new set
 app.get('/sets/new', async (req, res) => {
    if (!req.isAuthenticated()) {
        return res.redirect('/');
@@ -166,6 +167,22 @@ app.post('/sets/:id/delete', async (req, res) => {
         res.redirect('/dashboard');
     }
 });
+
+// delete flashcard
+app.post('/sets/:setId/cards/:cardId/delete', async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    try {
+        await Flashcard.findByIdAndDelete(req.params.cardId);
+        res.redirect(`/sets/${req.params.setId}`);
+
+    } catch (err) {
+        console.error("Error deleting card:", err);
+        res.redirect(`/sets/${req.params.setId}`);
+    }
+})
 
 // add flashcard to set
 app.post('/sets/:id/cards/add', async (req, res) => {
